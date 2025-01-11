@@ -1,0 +1,1 @@
+The thing that happens when you try to run the two threads at once is that the treads continouslty try to interrupt eachother. To fix this i had to make the action inside the for loop atomic e.i. make it so the write sequence does not get interrupted. 
