@@ -23,8 +23,8 @@ struct BoundedBuffer* buf_new(int size){
     
     pthread_mutex_init(&buf->mtx, NULL);
     // TODO: initialize semaphores
-    //sem_init(&buf->capacity,      0, /*starting value?*/);
-	//sem_init(&buf->numElements,   0, /*starting value?*/);
+    sem_init(&buf->capacity,      0, 10);
+	sem_init(&buf->numElements,   0, 10);
     
     return buf;    
 }
@@ -66,9 +66,12 @@ void* producer(void* args){
     struct BoundedBuffer* buf = (struct BoundedBuffer*)(args);
     
     for(int i = 0; i < 10; i++){
+        pthread_mutex_lock(&buf->mtx); // Lock the mutex
+
         nanosleep(&(struct timespec){0, 100*1000*1000}, NULL);
         printf("[producer]: pushing %d\n", i);
         buf_push(buf, i);
+        pthread_mutex_unlock(&buf->mtx); // Lock the mutex
     }
     return NULL;
 }

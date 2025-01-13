@@ -43,7 +43,6 @@ int main(){
     pthread_create(&decrementingThread, NULL, decrementingThreadFunction, NULL);
     
     pthread_join(incrementingThread, NULL);
-    printf("The magic number is: %d\n", i);
     pthread_join(decrementingThread, NULL);
     
     
